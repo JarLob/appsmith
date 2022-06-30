@@ -235,7 +235,7 @@ export const ActionType = {
   getGeolocation: "appsmith.geolocation.getCurrentPosition",
   watchGeolocation: "appsmith.geolocation.watchPosition",
   stopWatchGeolocation: "appsmith.geolocation.clearWatch",
-  postMessage: "postMessageToTargetWindow",
+  postMessage: "postWindowMessage",
 };
 type ActionType = typeof ActionType[keyof typeof ActionType];
 
@@ -411,6 +411,9 @@ const fieldConfigs: FieldConfigs = {
           break;
         case ActionType.resetWidget:
           defaultParams = `"",true`;
+          break;
+        case ActionType.postMessage:
+          defaultParams = `"", '*'`;
           break;
         default:
           break;

@@ -379,7 +379,7 @@ function getFieldFromValue(
     });
   }
 
-  if (value.indexOf("postMessageToTargetWindow") !== -1) {
+  if (value.indexOf("postWindowMessage") !== -1) {
     fields.push(
       {
         field: FieldType.MESSAGE_FIELD,
