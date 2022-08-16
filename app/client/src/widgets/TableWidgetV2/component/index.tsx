@@ -322,7 +322,7 @@ export default React.memo(ReactTableComponent, (prev, next) => {
     prev.handleReorderColumn === next.handleReorderColumn &&
     prev.handleResizeColumn === next.handleResizeColumn &&
     prev.height === next.height &&
-    prev.isLoading === next.isLoading &&
+    // prev.isLoading === next.isLoading &&
     prev.isVisibleDownload === next.isVisibleDownload &&
     prev.isVisibleFilters === next.isVisibleFilters &&
     prev.isVisiblePagination === next.isVisiblePagination &&

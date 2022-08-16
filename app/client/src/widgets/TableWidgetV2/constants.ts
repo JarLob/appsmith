@@ -78,6 +78,7 @@ export interface TableWidgetProps extends WidgetProps, WithMeta, TableStyles {
   boxShadow?: string;
   inlineEditingSaveOption?: InlineEditingSaveOptions;
   showInlineEditingOptionDropdown?: boolean;
+  selectColumnFilterText?: Record<string, string>;
 }
 
 export const getCurrentRowBinding = (
@@ -141,6 +142,7 @@ export type OnColumnEventArgs = {
   triggerPropertyName: string;
   eventType: EventType;
   row?: Record<string, unknown>;
+  additionalData?: Record<string, unknown>;
 };
 
 export const ICON_NAMES = Object.keys(IconNames).map(

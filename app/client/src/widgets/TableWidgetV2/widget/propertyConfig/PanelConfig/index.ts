@@ -24,6 +24,7 @@ import Basic from "./Basic";
 import SaveButtonProperties from "./SaveButtonProperties";
 import DiscardButtonproperties from "./DiscardButtonproperties";
 import { ButtonVariantTypes } from "components/constants";
+import Select from "./Select";
 
 export default {
   editableTitle: true,
@@ -33,6 +34,7 @@ export default {
   children: [
     ColumnControl,
     ButtonProperties,
+    Select,
     SaveButtonProperties,
     DiscardButtonproperties,
     MenuItems,
