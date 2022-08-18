@@ -640,8 +640,7 @@ export default {
       } else if (
         (!_.isNil(validation.isColumnEditableCellValid) &&
           !validation.isColumnEditableCellValid) ||
-        (validation.regex &&
-          !CreateRegex(validation.regex).test(value.toString())) ||
+        (validation.regex && !CreateRegex(validation.regex).test(value)) ||
         (validation.isColumnEditableCellRequired && value === "")
       ) {
         return false;
@@ -650,13 +649,22 @@ export default {
       /* Column type related validations */
       switch (editedColumn.columnType) {
         case "number":
-          if (!_.isNil(validation.min) && validation.min > value) {
+          if (
+            !_.isNil(validation.min) &&
+            validation.min !== "" &&
+            validation.min > value
+          ) {
             return false;
           }
 
-          if (!_.isNil(validation.max) && validation.max < value) {
+          if (
+            !_.isNil(validation.max) &&
+            validation.max !== "" &&
+            validation.max < value
+          ) {
             return false;
           }
+          break;
       }
     }
 
