@@ -102,6 +102,8 @@ export default class DataTreeEvaluator {
   allActionValidationConfig?: { [actionId: string]: ActionValidationConfigMap };
   triggerFieldDependencyMap: DependencyMap = {};
   triggerFieldInverseDependencyMap: DependencyMap = {};
+  unusedIdentifiersList: DependencyMap = {};
+  unusedIdentifiersInverseList: DependencyMap = {};
   public hasCyclicalDependency = false;
   constructor(
     widgetConfigMap: WidgetTypeConfigMap,
@@ -143,12 +145,14 @@ export default class DataTreeEvaluator {
     this.allKeys = getAllPaths(localUnEvalTree);
     // Create dependency map
     const createDependencyStart = performance.now();
-    const { dependencyMap, triggerFieldDependencyMap } = createDependencyMap(
-      this,
-      localUnEvalTree,
-    );
+    const {
+      dependencyMap,
+      triggerFieldDependencyMap,
+      unusedIdentifiers,
+    } = createDependencyMap(this, localUnEvalTree);
     this.dependencyMap = dependencyMap;
     this.triggerFieldDependencyMap = triggerFieldDependencyMap;
+    this.unusedIdentifiersList = unusedIdentifiers;
     const createDependencyEnd = performance.now();
     // Sort
     const sortDependenciesStart = performance.now();
@@ -157,6 +161,8 @@ export default class DataTreeEvaluator {
     // Inverse
     this.inverseDependencyMap = this.getInverseDependencyTree();
     this.triggerFieldInverseDependencyMap = this.getInverseTriggerDependencyMap();
+    this.unusedIdentifiersInverseList = this.getInverseIdentifierList();
+
     // Evaluate
     const evaluateStart = performance.now();
     const { evalMetaUpdates, evaluatedTree } = this.evaluateTree(
@@ -1151,6 +1157,19 @@ export default class DataTreeEvaluator {
           inverseTree[field].push(triggerField);
         } else {
           inverseTree[field] = [triggerField];
+        }
+      });
+    });
+    return inverseTree;
+  }
+  getInverseIdentifierList(): DependencyMap {
+    const inverseTree: DependencyMap = {};
+    Object.keys(this.unusedIdentifiersList).forEach((path) => {
+      this.unusedIdentifiersList[path].forEach((field) => {
+        if (inverseTree[field]) {
+          inverseTree[field].push(path);
+        } else {
+          inverseTree[field] = [path];
         }
       });
     });
