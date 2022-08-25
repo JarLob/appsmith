@@ -3,9 +3,18 @@ redis:
   auth:
     enabled: false
   replica:
-    replicaCount: 2
+    replicaCount: 1
 
-redisMaster: appsmith-redis-master
+mongodb:
+  service:
+    nameOverride: appsmith-mongodb
+  auth:
+    rootUser: root
+    rootPassword : password
+  replicaCount: 2
+  architecture: "replicaset"
+  replicaSetName: rs0
+
 ## @section Global parameters
 ## Global Docker image parameters
 ## Please, note that this will override the image parameters, including dependencies, configured to use the global value
@@ -273,8 +282,7 @@ applicationConfig:
   APPSMITH_RECAPTCHA_SITE_KEY: ""
   APPSMITH_RECAPTCHA_SECRET_KEY: ""
   APPSMITH_RECAPTCHA_ENABLED: ""
-#  APPSMITH_MONGODB_URI: "mongodb+srv://admin:password@mongo-rs-mongodb.default.svc.cluster.local/appsmith?retryWrites=true"
-  APPSMITH_MONGODB_URI: ""
+  APPSMITH_MONGODB_URI: "mongodb+srv://root:password@appsmith-mongodb-headless/appsmith?retryWrites=true"
   APPSMITH_REDIS_URL: "redis://appsmith-redis-master:6379"
   APPSMITH_ENCRYPTION_PASSWORD: ""
   APPSMITH_ENCRYPTION_SALT: ""

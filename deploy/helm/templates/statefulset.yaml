@@ -47,6 +47,9 @@ spec:
       - name: redis-init-container
         image: alpine
         command: ['sh', '-c', "apk add redis; until redis-cli -h appsmith-redis-master.{{.Release.Namespace}}.svc.cluster.local ping; do echo waiting for redis; sleep 2; done"]
+      - name: mongo-init-container
+        image: docker.io/bitnami/mongodb:4.4.11-debian-10-r12
+        command: ['sh', '-c', "until mongo --host appsmith-mongodb.{{.Release.Namespace}}.svc.cluster.local --eval 'db.runCommand({ping:1})' ; do echo waiting for mongo; sleep 2; done"]
       containers:
         - name: {{ .Values.containerName }}
           securityContext:

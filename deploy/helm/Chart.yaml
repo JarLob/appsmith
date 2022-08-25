@@ -19,3 +19,8 @@ dependencies:
   appVersion: 6.0.2
   enabled: true
   repository: https://charts.bitnami.com/bitnami
+- name: mongodb
+  version: 10.31.5
+  appVersion: 4.4.11
+  enabled: true
+  repository: https://charts.bitnami.com/bitnami
