@@ -181,7 +181,7 @@ describe("JS Function Execution", function() {
         completeReplace: true,
         toRun: false,
         shouldCreateNewJSObj: true,
-        toWriteAfterToastsDisappear : true
+        toWriteAfterToastsDisappear: true,
       });
 
       // Assert presence of toast message
@@ -191,7 +191,8 @@ describe("JS Function Execution", function() {
       agHelper.GetNAssertElementText(
         locator._lintErrorElement,
         highlightedLintText,
-        "contain.text", -1
+        "contain.text",
+        -1,
       );
       agHelper.ActionContextMenuWithInPane("Delete", "", true);
     };
