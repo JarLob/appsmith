@@ -301,6 +301,10 @@ export function Table(props: TableProps) {
         <Scrollbars
           renderThumbHorizontal={ScrollbarHorizontalThumb}
           renderTrackHorizontal={ScrollbarHorizontalTrack}
+          style={{
+            width: props.width,
+            height: isHeaderVisible ? props.height - 48 : props.height,
+          }}
         >
           <div {...getTableProps()} className="table">
             <div
@@ -377,6 +381,11 @@ export function Table(props: TableProps) {
                     {...rowProps}
                     className={"tr" + `${isRowSelected ? " selected-row" : ""}`}
                     key={rowIndex}
+                    onClick={(e) => {
+                      row.toggleRowSelected();
+                      props.selectTableRow(row);
+                      e.stopPropagation();
+                    }}
                   >
                     {props.multiRowSelection &&
                       renderBodyCheckBoxCell(
