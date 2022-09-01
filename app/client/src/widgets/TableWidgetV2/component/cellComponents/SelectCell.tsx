@@ -52,6 +52,7 @@ type SelectProps = {
     text: string,
     rowIndex: number,
     serverSideFiltering: boolean,
+    alias: string,
     action?: string,
   ) => void;
   onItemSelect: (
@@ -152,10 +153,17 @@ export const SelectCell = (props: SelectProps) => {
         text,
         rowIndex,
         serverSideFiltering,
+        alias,
         onFilterChangeActionString,
       );
     },
-    [onFilterChange, rowIndex, serverSideFiltering, onFilterChangeActionString],
+    [
+      onFilterChange,
+      rowIndex,
+      serverSideFiltering,
+      onFilterChangeActionString,
+      alias,
+    ],
   );
 
   const onClose = useCallback(

@@ -1672,11 +1672,12 @@ class TableWidgetV2 extends BaseWidget<TableWidgetProps, WidgetState> {
     text: string,
     rowIndex: number,
     serverSideFiltering: boolean,
+    alias: string,
     action?: string,
   ) => {
     this.props.updateWidgetMetaProperty("selectColumnFilterText", {
       ...this.props.selectColumnFilterText,
-      [this.props.editableCell.column]: text,
+      [alias]: text,
     });
 
     if (action && serverSideFiltering) {

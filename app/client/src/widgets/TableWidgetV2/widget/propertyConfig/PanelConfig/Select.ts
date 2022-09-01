@@ -11,7 +11,7 @@ export default {
     {
       propertyName: "selectOptions",
       helpText: "Options to be shown on the select dropdown",
-      label: "Select Options",
+      label: "Options",
       controlType: "INPUT_TEXT",
       isJSConvertible: false,
       isBindProperty: true,
