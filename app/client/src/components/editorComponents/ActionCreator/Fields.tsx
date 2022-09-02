@@ -360,6 +360,7 @@ export enum FieldType {
   MESSAGE_FIELD = "MESSAGE_FIELD",
   TARGET_ORIGIN_FIELD = "TARGET_ORIGIN_FIELD",
   SOURCE_FIELD = "SOURCE_FIELD",
+  TRANSFERABLE_OBJECT_FIELD = "TRANSFERABLE_OBJECT_FIELD",
 }
 
 type FieldConfig = {
@@ -414,7 +415,7 @@ const fieldConfigs: FieldConfigs = {
           defaultParams = `"",true`;
           break;
         case ActionType.postMessage:
-          defaultParams = `"", '*', ""`;
+          defaultParams = `"", '*', "", undefined`;
           break;
         default:
           break;
@@ -657,6 +658,15 @@ const fieldConfigs: FieldConfigs = {
     },
     view: ViewTypes.TEXT_VIEW,
   },
+  [FieldType.TRANSFERABLE_OBJECT_FIELD]: {
+    getter: (value: string) => {
+      return textGetter(value, 3);
+    },
+    setter: (value: string, currentValue: string) => {
+      return textSetter(value, currentValue, 3);
+    },
+    view: ViewTypes.TEXT_VIEW,
+  },
 };
 
 function renderField(props: {
@@ -835,6 +845,7 @@ function renderField(props: {
     case FieldType.MESSAGE_FIELD:
     case FieldType.TARGET_ORIGIN_FIELD:
     case FieldType.SOURCE_FIELD:
+    case FieldType.TRANSFERABLE_OBJECT_FIELD:
       let fieldLabel = "";
       if (fieldType === FieldType.ALERT_TEXT_FIELD) {
         fieldLabel = "Message";
@@ -866,6 +877,8 @@ function renderField(props: {
         fieldLabel = "Target origin";
       } else if (fieldType === FieldType.SOURCE_FIELD) {
         fieldLabel = "Iframe widget";
+      } else if (fieldType === FieldType.TRANSFERABLE_OBJECT_FIELD) {
+        fieldLabel = "Transfer";
       }
       viewElement = (view as (props: TextViewProps) => JSX.Element)({
         label: fieldLabel,

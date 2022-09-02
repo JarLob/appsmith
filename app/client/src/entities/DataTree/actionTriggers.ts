@@ -174,6 +174,7 @@ export type PostMessageDescription = {
     message: unknown;
     targetOrigin: string;
     source: string;
+    transfer?: Transferable[];
   };
 };
 

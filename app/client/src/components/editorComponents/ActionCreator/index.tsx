@@ -390,6 +390,9 @@ function getFieldFromValue(
       {
         field: FieldType.SOURCE_FIELD,
       },
+      {
+        field: FieldType.TRANSFERABLE_OBJECT_FIELD,
+      },
     );
   }
 

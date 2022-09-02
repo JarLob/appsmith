@@ -7,7 +7,7 @@ export function createMessage(
 
 /*
   For self hosted, it displays the string "Appsmith Community v1.10.0" or "Appsmith Business v1.10.0".
-  For cloud hosting, it displays "Appsmith v1.10.0". 
+  For cloud hosting, it displays "Appsmith v1.10.0".
   This is because Appsmith Cloud doesn't support business features yet.
  */
 export const APPSMITH_DISPLAY_VERSION = (
@@ -395,7 +395,7 @@ export const CLEAR_INTERVAL = () => `Clear interval`;
 export const GET_GEO_LOCATION = () => `Get Geolocation`;
 export const WATCH_GEO_LOCATION = () => `Watch Geolocation`;
 export const STOP_WATCH_GEO_LOCATION = () => `Stop watching Geolocation`;
-export const POST_MESSAGE = () => `Post message to a target window`;
+export const POST_MESSAGE = () => `Post message`;
 
 //js actions
 export const JS_ACTION_COPY_SUCCESS = (actionName: string, pageName: string) =>

@@ -18,7 +18,7 @@ export function* executePostMessage(
   payload: PostMessageDescription["payload"],
   triggerMeta: TriggerMeta,
 ) {
-  const { message, source, targetOrigin } = payload;
+  const { message, source, targetOrigin, transfer } = payload;
   try {
     if (isEmpty(targetOrigin)) {
       throw new TriggerFailureError("Please enter a target origin URL.");
@@ -27,15 +27,16 @@ export function* executePostMessage(
         const src = document.getElementById(
           `iframe-${source}`,
         ) as HTMLIFrameElement;
+
         if (src && src.contentWindow) {
-          src.contentWindow.postMessage(message, targetOrigin);
+          src.contentWindow.postMessage(message, targetOrigin, transfer);
         } else {
           throw new TriggerFailureError(
             `Cannot find Iframe with name ${source} on this page`,
           );
         }
       } else {
-        window.parent.postMessage(message, targetOrigin, undefined);
+        window.parent.postMessage(message, targetOrigin, transfer);
       }
     }
   } catch (error) {
