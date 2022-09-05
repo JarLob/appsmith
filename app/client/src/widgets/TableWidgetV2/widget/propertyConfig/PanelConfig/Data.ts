@@ -60,6 +60,10 @@ export default {
           label: "Icon Button",
           value: "iconButton",
         },
+        {
+          label: "Select",
+          value: ColumnTypes.SELECT,
+        },
       ],
       updateHook: composePropertyUpdateHook([
         updateNumberColumnTypeTextAlignment,
