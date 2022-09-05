@@ -1,8 +1,8 @@
-import { parse, Node, SourceLocation, Options } from 'acorn';
-import { ancestor, simple } from 'acorn-walk';
-import { ECMA_VERSION, NodeTypes } from './constants';
-import { isFinite, isString, memoize, toPath } from 'lodash';
-import { isInvalidEntiyName, sanitizeScript } from './utils';
+import { parse, Node, SourceLocation, Options } from "acorn";
+import { ancestor, simple } from "acorn-walk";
+import { ECMA_VERSION, NodeTypes } from "./constants";
+import { isFinite, isString, memoize, toPath } from "lodash";
+import { isInvalidEntiyName, sanitizeScript } from "./utils";
 
 /*
  * Valuable links:
@@ -90,7 +90,7 @@ export interface PropertyNode extends Node {
   type: NodeTypes.Property;
   key: LiteralNode | IdentifierNode;
   value: Node;
-  kind: 'init' | 'get' | 'set';
+  kind: "init" | "get" | "set";
 }
 
 // Node with location details
@@ -98,7 +98,7 @@ type NodeWithLocation<NodeType> = NodeType & {
   loc: SourceLocation;
 };
 
-type AstOptions = Omit<Options, 'ecmaVersion'>;
+type AstOptions = Omit<Options, "ecmaVersion">;
 
 /* We need these functions to typescript casts the nodes with the correct types */
 export const isIdentifierNode = (node: Node): node is IdentifierNode => {
@@ -193,7 +193,7 @@ export const getAST = memoize((code: string, options?: AstOptions) =>
  * @param code: The piece of script where identifiers need to be extracted from
  */
 
-interface ExtractInfoFromCode {
+export interface ExtractInfoFromCode {
   identifiers: string[];
   functionalParams: string[];
   variables: string[];
@@ -208,7 +208,7 @@ export const extractInfoFromCode = (
   const variableDeclarations = new Set<string>();
   // List of functionalParams found. This will be removed from the identifier list
   let functionalParams = new Set<string>();
-  let ast: Node = { end: 0, start: 0, type: '' };
+  let ast: Node = { end: 0, start: 0, type: "" };
   try {
     const sanitizedScript = sanitizeScript(code, evaluationVersion);
     /* wrapCode - Wrapping code in a function, since all code/script get wrapped with a function during evaluation.
@@ -373,7 +373,7 @@ export const getFunctionalParamsFromNode = (
 
 const constructFinalMemberExpIdentifier = (
   node: MemberExpressionNode,
-  child = ''
+  child = ""
 ): string => {
   const propertyAccessor = getPropertyAccessor(node.property);
   if (isIdentifierNode(node.object)) {
@@ -417,7 +417,7 @@ export const extractInvalidTopLevelMemberExpressionsFromCode = (
   const invalidTopLevelMemberExpressions = new Set<MemberExpressionData>();
   const variableDeclarations = new Set<string>();
   let functionalParams = new Set<string>();
-  let ast: Node = { end: 0, start: 0, type: '' };
+  let ast: Node = { end: 0, start: 0, type: "" };
   try {
     const sanitizedScript = sanitizeScript(code, evaluationVersion);
     const wrappedCode = wrapCode(sanitizedScript);
