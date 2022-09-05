@@ -1185,7 +1185,10 @@ class TableWidgetV2 extends BaseWidget<TableWidgetProps, WidgetState> {
   };
 
   renderCell = (props: any) => {
-    const column = props.cell.column.columnProperties;
+    const column =
+      this.getColumnByOriginalId(
+        props.cell.column.columnProperties.originalId,
+      ) || props.cell.column.columnProperties;
     const isHidden = !column.isVisible;
     const {
       filteredTableData = [],

@@ -17,22 +17,25 @@ const StyledSelectComponent = styled(SelectComponent)<{
   accentColor: string;
   height: number;
 }>`
-  width: 100%;
-
-  .bp3-control-group {
-    height: ${(props) => props.height}px;
-
-    & > :only-child {
-      border-radius: 0;
-    }
-
-    & .bp3-button {
-      padding: 0 9px;
-    }
-  }
-
-  .bp3-popover-target > div {
+  &&& {
     width: 100%;
+
+    .bp3-control-group {
+      height: ${(props) => props.height}px;
+
+      & > :only-child {
+        border-radius: 0;
+      }
+
+      & button.bp3-button {
+        padding: 0 9px;
+        min-height: 30px;
+      }
+    }
+
+    .bp3-popover-target > div {
+      width: 100%;
+    }
   }
 `;
 

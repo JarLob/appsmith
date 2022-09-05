@@ -1,4 +1,8 @@
 const commonlocators = require("../../../../../../locators/commonlocators.json");
+const widgetsPage = require("../../../../../../locators/Widgets.json");
+import { ObjectsRegistry } from "../../../../../../support/Objects/Registry";
+
+let dataSources = ObjectsRegistry.DataSources;
 
 describe("Table widget - Select column type functionality", () => {
   before(() => {
@@ -146,42 +150,83 @@ describe("Table widget - Select column type functionality", () => {
     cy.get(".t--canvas-artboard").click({ force: true });
   });
 
-  // it("6. should check that reset filter on filter close property is working", () => {
-  //   cy.dragAndDropToCanvas("textwidget", { x: 150, y: 100 });
+  // it("6. should check that on option select is working", () => {
   //   cy.openPropertyPane("tablewidgetv2");
   //   cy.editColumn("step");
-  //   cy.get(".t--property-control-filterable .bp3-switch span").click();
+  //   cy.get(".t--property-control-onoptionchange .t--js-toggle").click();
+  //   cy.updateCodeInput(
+  //     ".t--property-control-onoptionchange",
+  //     `
+  //     {{showAlert(currentRow.step)}}
+  //   `,
+  //   );
   //   cy.editTableSelectCell(0, 0);
-  //   cy.get(".select-popover-wrapper .bp3-input-group input").type("1", {force: true});
-  //   cy.get(".bp3-ui-text").click();
-  //   cy.editTableSelectCell(0, 0);
-  //   cy.get(".select-popover-wrapper .bp3-input-group input").should("have.value", "1");
-  //   cy.get(".select-popover-wrapper .bp3-input-group input").clear().type("2", {force: true});
-  //   cy.get(".bp3-ui-text").click();
-  //   cy.editTableSelectCell(0, 0);
-  //   cy.get(".select-popover-wrapper .bp3-input-group input").should("have.value", "2");
+  //   cy.get(".menu-item-link")
+  //     .contains("#3")
+  //     .click();
+
+  //   cy.get(widgetsPage.toastAction).should("be.visible");
+  //   cy.get(widgetsPage.toastActionText)
+  //     .last()
+  //     .invoke("text")
+  //     .then((text) => {
+  //       expect(text).to.equal("#3");
+  //     });
+
+  //   cy.get(".menu-virtual-list").should("not.exist");
+  //   cy.readTableV2data(0, 0).then((val) => {
+  //     expect(val).to.equal("#3");
+  //   });
   // });
 
-  it("7. should check that on option select is working", () => {
+  it("7. should check that server side filering is working", () => {
+    dataSources.CreateDataSource("Postgres");
+    cy.get("@dsName").then(($dsName) => {
+      dataSources.CreateNewQueryInDS(
+        $dsName,
+        "SELECT * FROM public.astronauts {{this.params.filterText ? `WHERE name LIKE '%${this.params.filterText}%'` : ''}} LIMIT 10;",
+      );
+    });
+    cy.get(".t--form-control-SWITCH .slider").click();
+    cy.wait("@saveAction");
+    cy.get(".t--run-query").click();
+    cy.wait("@postExecute");
+    cy.get("#switcher--widgets").click();
     cy.openPropertyPane("tablewidgetv2");
-    cy.get(".t--property-control-onoptionchange .t--js-toggle").click();
+    cy.editColumn("step");
+    cy.get(".t--property-control-serversidefiltering .bp3-switch span").click();
     cy.updateCodeInput(
-      ".t--property-control-onoptionchange",
+      ".t--property-pane-section-selectproperties",
       `
-      {{showAlert(JSON.stringify(currentRow.step))}}
+      {{Query1.data.map((d) => ({
+        label: d.name,
+        value: d.name
+      }))}}
     `,
     );
+
+    cy.get(".t--property-control-onfilterupdate .t--js-toggle").click();
+    cy.updateCodeInput(
+      ".t--property-control-onfilterupdate",
+      `
+      {{Query1.run({filterText: filterText})}}
+    `,
+    );
+
     cy.editTableSelectCell(0, 0);
-    cy.get(".menu-item-link")
-      .contains("#3")
-      .click();
-    cy.get(".menu-virtual-list").should("not.exist");
-    cy.readTableV2data(0, 0).then((val) => {
-      expect(val).to.equal("#3");
+    cy.get(".select-popover-wrapper .bp3-input-group input").should("exist");
+    cy.get(".select-popover-wrapper .bp3-input-group input").type("Ulf", {
+      force: true,
     });
+
+    cy.get(".menu-item-link").should("have.length", 1);
+    cy.get(".menu-item-link").should("contain", "Ulf Merbold");
+
+    cy.get(".select-popover-wrapper .bp3-input-group input")
+      .clear()
+      .type("Anil", { force: true });
+
+    cy.get(".menu-item-link").should("have.length", 1);
+    cy.get(".menu-item-link").should("contain", "Anil Menon");
   });
-
-  // it("8. should check that server side filering is working", () => {
-
-  // });
 });
